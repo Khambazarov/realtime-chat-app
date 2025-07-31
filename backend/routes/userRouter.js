@@ -10,7 +10,9 @@ import Message from "../models/messageSchema.js";
 const router = express.Router();
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.EMAIL_HOST,
+  port: Number(process.env.EMAIL_PORT),
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -19,10 +21,14 @@ const transporter = nodemailer.createTransport({
 
 const sendVerificationEmail = async (userEmail, verificationKey) => {
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_FROM,
     to: userEmail,
     subject: "Email Verification",
-    text: `Please verify your email by using the following key: ${verificationKey}`,
+    html: `
+      <h3>Welcome to Chat App</h3>
+      <p>Please verify your email with the following code:</p>
+      <strong>${verificationKey}</strong>
+    `,
   };
 
   try {
@@ -271,14 +277,14 @@ export default (io) => {
   });
 
   const sendNewPw = async (email, key) => {
-    const baseUrl = process.env.HELLO_WORD_URL;
+    const baseUrl = process.env.CHAT_URL;
 
     const resetPw = {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Set new Password",
       html: `
-      Please give this key to verify: <strong>${key}</strong>.
+      Please give this key to verify: <strong>${key}</strong>
       <br>
       You can click this link to change your password: 
       <a href="${baseUrl}/new-pw" target="_blank">${baseUrl}/new-pw</a>
