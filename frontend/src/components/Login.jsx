@@ -29,10 +29,7 @@ export const Login = () => {
 
     toast.loading(translations.toast.login.waiting);
 
-    const API_URL = import.meta.env.VITE_API_URL;
-
-    // const response = await fetch("/api/users/login", {
-    const response = await fetch(`${API_URL}/users/login`, {
+    const response = await fetch("/api/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

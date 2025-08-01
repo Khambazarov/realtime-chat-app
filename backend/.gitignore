@@ -4,6 +4,8 @@ node_modules
 !.env.sample
 
 .http*
+!.env.development
+!.env.production
 !.http.sample
 
 app_spec.yaml

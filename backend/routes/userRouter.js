@@ -20,14 +20,22 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendVerificationEmail = async (userEmail, verificationKey) => {
+  const baseUrl = process.env.CHAT_URL;
+  const sender = process.env.EMAIL_FROM;
+
   const mailOptions = {
-    from: process.env.EMAIL_FROM,
+    from: sender,
     to: userEmail,
     subject: "Email Verification",
     html: `
       <h3>Welcome to Chat App</h3>
-      <p>Please verify your email with the following code:</p>
-      <strong>${verificationKey}</strong>
+      <p>To complete your registration, please verify your email address using the code below:</p>
+      <h2 style="color: #4a90e2;">${verificationKey}</h2>
+      <p>You can verify your account here:</p>
+      <a href="${baseUrl}/register/verify" target="_blank">${baseUrl}/register/verify</a>
+      <p>If you did not sign up for Chat App, you can safely ignore this email.</p>
+      <br/>
+      <p>Best regards,<br/>Chat App Team</p>
     `,
   };
 
@@ -142,7 +150,12 @@ export default (io) => {
           .json({ errorMessage: "Invalid email or password" });
       }
 
-      req.session.user = { id: user._id, username: user.username };
+      req.session.user = {
+        id: user._id.toString(),
+        username: user.username,
+        email: user.email,
+      };
+      await req.session.save();
       console.log("User is succesfully authenticated: ", req.session.user);
       res.json({
         message: "User logged in successfully",
@@ -276,18 +289,24 @@ export default (io) => {
     }
   });
 
-  const sendNewPw = async (email, key) => {
+  const sendNewPw = async (userEmail, key) => {
     const baseUrl = process.env.CHAT_URL;
+    const sender = process.env.EMAIL_FROM;
 
     const resetPw = {
-      from: process.env.EMAIL_USER,
-      to: email,
+      from: sender,
+      to: userEmail,
       subject: "Set new Password",
       html: `
-      Please give this key to verify: <strong>${key}</strong>
-      <br>
-      You can click this link to change your password: 
-      <a href="${baseUrl}/new-pw" target="_blank">${baseUrl}/new-pw</a>
+        <h3>Password Reset Request</h3>
+        <p>You requested to reset your password for your Chat App account.</p>
+        <p>Please use the verification code below to proceed:</p>
+        <h2 style="color: #4a90e2;">${key}</h2>
+        <p>Go to the following page to enter your email, the code, and choose a new password:</p>
+        <a href="${baseUrl}/new-pw" target="_blank">${baseUrl}/new-pw</a>
+        <p>If you did not request a password reset, you can ignore this message.</p>
+        <br/>
+        <p>Best regards,<br/>Chat App Team</p>
       `,
     };
 

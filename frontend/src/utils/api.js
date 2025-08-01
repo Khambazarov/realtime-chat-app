@@ -1,10 +1,8 @@
-const API_URL = import.meta.env.VITE_API_URL;
-
 export const fetchUserLanguage = async () => {
-  // const response = await fetch("/api/users/current", {
-    const response = await fetch(`${API_URL}/users/current`, {
-      credentials: "include",
-    });
+  const response = await fetch("/api/users/current", {
+    method: "GET",
+    credentials: "include",
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch user language");
@@ -13,7 +11,7 @@ export const fetchUserLanguage = async () => {
 };
 
 export const updateUserLanguage = async (language) => {
-  const response = await fetch(`${API_URL}/users/language`, {
+  const response = await fetch("api/users/language", {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

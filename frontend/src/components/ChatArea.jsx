@@ -46,7 +46,10 @@ export const ChatArea = () => {
   } = useQuery({
     queryKey: ["chatrooms"],
     queryFn: async () => {
-      const response = await fetch("/api/chatrooms/chats");
+      const response = await fetch("/api/chatrooms/chats", {
+        credentials: "include",
+      });
+
       if (!response.ok) {
         throw new Error("Failed to fetch chatrooms");
       }
@@ -89,6 +92,7 @@ export const ChatArea = () => {
     mutationFn: async () => {
       const response = await fetch(`/api/users/logout`, {
         method: "GET",
+        credentials: "include",
       });
       if (!response.ok) {
         throw new Error("Failed to logout");
