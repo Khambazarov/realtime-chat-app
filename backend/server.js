@@ -10,7 +10,7 @@ import cookie from "cookie";
 import userRouter from "./routes/userRouter.js";
 import messageRouter from "./routes/messageRouter.js";
 import chatroomRouter from "./routes/chatroomRouter.js";
-import uploadRouter from "./routes/uploadRouter.js"
+import uploadRouter from "./routes/uploadRouter.js";
 import { connectDB } from "./db.js";
 import Chatroom from "./models/chatroomSchema.js";
 
@@ -22,7 +22,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: [process.env.CORS_ORIGIN, process.env.CORS_ORIGIN2],
+    origin: "https://chat.khambazarov.dev",
     credentials: true,
   })
 );
@@ -30,7 +30,8 @@ app.use(
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: [process.env.CORS_ORIGIN, process.env.CORS_ORIGIN2],
+    // origin: [process.env.CORS_ORIGIN, process.env.CORS_ORIGIN2],
+    origin: "https://chat.khambazarov.dev",
     allowedHeaders: ["cors-header"],
     credentials: true,
   },
@@ -85,11 +86,13 @@ app.use(
   session({
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: true,
+    // saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-      maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
+      sameSite: "None",
+      maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
     },
     store,
   })
@@ -101,5 +104,5 @@ app.use("/api/chatrooms", chatroomRouter(io));
 app.use("/api/upload", uploadRouter);
 
 const baseUrl = process.env.BASE_URL;
-const port = parseInt(process.env.PORT) || 3030;
+const port = parseInt(process.env.PORT) || 8080;
 httpServer.listen(port, () => console.log(`PORT ON: ${baseUrl}:${port}`));

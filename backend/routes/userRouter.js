@@ -172,7 +172,7 @@ export default (io) => {
         usermail: user.email,
         dateOfRegistration: user.createdAt,
         volume: user.volume,
-        language: user.language,
+        language: user?.language,
       });
     } catch (error) {
       console.error("Error fetching current user:", error);
