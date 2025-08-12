@@ -42,16 +42,6 @@ const sendVerificationEmail = async (userEmail, verificationKey) => {
     to: userEmail,
     subject: "Email Verification",
     html,
-    // : `
-    //   <h3>Welcome to Chat App</h3>
-    //   <p>To complete your registration, please verify your email address using the code below:</p>
-    //   <h2 style="color: #4a90e2;">${verificationKey}</h2>
-    //   <p>You can verify your account here:</p>
-    //   <a href="${baseUrl}/register/verify" target="_blank">${baseUrl}/register/verify</a>
-    //   <p>If you did not sign up for Chat App, you can safely ignore this email.</p>
-    //   <br/>
-    //   <p>Best regards,<br/>Chat App Team</p>
-    // `,
   };
 
   try {
@@ -322,17 +312,6 @@ export default (io) => {
       to: userEmail,
       subject: "Set new Password",
       html,
-      // : `
-      //   <h3>Password Reset Request</h3>
-      //   <p>You requested to reset your password for your Chat App account.</p>
-      //   <p>Please use the verification code below to proceed:</p>
-      //   <h2 style="color: #4a90e2;">${key}</h2>
-      //   <p>Go to the following page to enter your email, the code, and choose a new password:</p>
-      //   <a href="${baseUrl}/new-pw" target="_blank">${baseUrl}/new-pw</a>
-      //   <p>If you did not request a password reset, you can ignore this message.</p>
-      //   <br/>
-      //   <p>Best regards,<br/>Chat App Team</p>
-      // `,
     };
 
     try {
