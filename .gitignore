@@ -1,71 +1,66 @@
+# -------------------------
 # Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-###
-node_modules
-.env*
-.env.*
-!.env.sample
-temp.md
-
-.http*
-!.http.sample
-
-app_spec.yaml
-
-###
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Logs
+# -------------------------
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
-# Node modules
+# -------------------------
+# Dependency directories
+# -------------------------
 **/node_modules/
 
-# Build
+# -------------------------
+# Build output
+# -------------------------
 **/dist
 **/build
 
-# Env files (except sample)
+# -------------------------
+# Environment variables
+# (except sample files)
+# -------------------------
 **/.env
-**/.env.*
-!**/.env.sample
+**/.env.*        # .env.development, .env.production etc.
+!**/.env.sample  # Keep the sample file in repo
 
-# HTTP Test files (except samples)
+# -------------------------
+# HTTP test files
+# -------------------------
 **/.http*
 !**/.http.sample
 
-# System / Editor files
+# -------------------------
+# System / Editor junk
+# -------------------------
 .DS_Store
 .vscode/*
 .idea/
 *.swp
 *.swo
 
-# Optional
+# -------------------------
+# Optional / Project-specific
+# -------------------------
 temp.md
 app_spec.yaml
+*.local
+
+# -------------------------
+# DigitalOcean / Deployment specific
+# -------------------------
+.do/             # DigitalOcean app spec files if generated locally
+**/.vercel/      # In case of Vercel testing
+**/.netlify/     # In case of Netlify testing
+
+# -------------------------
+# Debug / Cache
+# -------------------------
+*.pid
+*.seed
+*.pid.lock
+.cache/
+.terraform/
 
