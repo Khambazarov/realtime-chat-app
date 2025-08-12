@@ -31,6 +31,9 @@ const store = MongoStore.create({
 });
 
 const isProduction = process.env.NODE_ENV === "production";
+if (isProduction) {
+  app.set("trust proxy", 1); // wichtig für secure Cookies hinter DO/HTTPS
+}
 
 const sessionMiddleware = session({
   name: "connect.sid",

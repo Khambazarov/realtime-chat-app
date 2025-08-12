@@ -1,0 +1,71 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+###
+node_modules
+.env*
+.env.*
+!.env.sample
+temp.md
+
+.http*
+!.http.sample
+
+app_spec.yaml
+
+###
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Node modules
+**/node_modules/
+
+# Build
+**/dist
+**/build
+
+# Env files (except sample)
+**/.env
+**/.env.*
+!**/.env.sample
+
+# HTTP Test files (except samples)
+**/.http*
+!**/.http.sample
+
+# System / Editor files
+.DS_Store
+.vscode/*
+.idea/
+*.swp
+*.swo
+
+# Optional
+temp.md
+app_spec.yaml
+
