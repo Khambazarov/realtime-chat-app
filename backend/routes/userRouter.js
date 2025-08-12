@@ -1,3 +1,8 @@
+// userRouter.js (ganz oben bei den Imports)
+import {
+  renderVerificationEmail,
+  renderResetEmail,
+} from "../utils/mailTemplates.js";
 import express from "express";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
@@ -21,22 +26,32 @@ const transporter = nodemailer.createTransport({
 
 const sendVerificationEmail = async (userEmail, verificationKey) => {
   const baseUrl = process.env.CHAT_URL;
+  const assets = process.env.ASSET_BASE || baseUrl;
   const sender = process.env.EMAIL_FROM;
+
+  const html = renderVerificationEmail({
+    appName: "Chat App",
+    title: "Hello, Word!",
+    imgUrl: `${assets}/robot.png`,
+    verifyUrl: `${baseUrl}/register/verify`,
+    code: verificationKey,
+  });
 
   const mailOptions = {
     from: sender,
     to: userEmail,
     subject: "Email Verification",
-    html: `
-      <h3>Welcome to Chat App</h3>
-      <p>To complete your registration, please verify your email address using the code below:</p>
-      <h2 style="color: #4a90e2;">${verificationKey}</h2>
-      <p>You can verify your account here:</p>
-      <a href="${baseUrl}/register/verify" target="_blank">${baseUrl}/register/verify</a>
-      <p>If you did not sign up for Chat App, you can safely ignore this email.</p>
-      <br/>
-      <p>Best regards,<br/>Chat App Team</p>
-    `,
+    html,
+    // : `
+    //   <h3>Welcome to Chat App</h3>
+    //   <p>To complete your registration, please verify your email address using the code below:</p>
+    //   <h2 style="color: #4a90e2;">${verificationKey}</h2>
+    //   <p>You can verify your account here:</p>
+    //   <a href="${baseUrl}/register/verify" target="_blank">${baseUrl}/register/verify</a>
+    //   <p>If you did not sign up for Chat App, you can safely ignore this email.</p>
+    //   <br/>
+    //   <p>Best regards,<br/>Chat App Team</p>
+    // `,
   };
 
   try {
@@ -291,23 +306,33 @@ export default (io) => {
 
   const sendNewPw = async (userEmail, key) => {
     const baseUrl = process.env.CHAT_URL;
+    const assets = process.env.ASSET_BASE || baseUrl;
     const sender = process.env.EMAIL_FROM;
+
+    const html = renderResetEmail({
+      appName: "Chat App",
+      title: "Hello, Word!",
+      imgUrl: `${assets}/robot.png`,
+      resetUrl: `${baseUrl}/new-pw`,
+      code: key,
+    });
 
     const resetPw = {
       from: sender,
       to: userEmail,
       subject: "Set new Password",
-      html: `
-        <h3>Password Reset Request</h3>
-        <p>You requested to reset your password for your Chat App account.</p>
-        <p>Please use the verification code below to proceed:</p>
-        <h2 style="color: #4a90e2;">${key}</h2>
-        <p>Go to the following page to enter your email, the code, and choose a new password:</p>
-        <a href="${baseUrl}/new-pw" target="_blank">${baseUrl}/new-pw</a>
-        <p>If you did not request a password reset, you can ignore this message.</p>
-        <br/>
-        <p>Best regards,<br/>Chat App Team</p>
-      `,
+      html,
+      // : `
+      //   <h3>Password Reset Request</h3>
+      //   <p>You requested to reset your password for your Chat App account.</p>
+      //   <p>Please use the verification code below to proceed:</p>
+      //   <h2 style="color: #4a90e2;">${key}</h2>
+      //   <p>Go to the following page to enter your email, the code, and choose a new password:</p>
+      //   <a href="${baseUrl}/new-pw" target="_blank">${baseUrl}/new-pw</a>
+      //   <p>If you did not request a password reset, you can ignore this message.</p>
+      //   <br/>
+      //   <p>Best regards,<br/>Chat App Team</p>
+      // `,
     };
 
     try {
